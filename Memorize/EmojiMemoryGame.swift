@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-class EmojiMemoryGame {
-    
+class EmojiMemoryGame: ObservableObject {
     static let emojis = ["🚌","🏎","🚀","🚅","🚜","🛵","🚁","🛳","🚗","🛻","🚲","🛸","🚚"]
     
     static func createMemoryGame() -> MemoryGame<String> {
@@ -17,12 +16,18 @@ class EmojiMemoryGame {
         }
     }
     
-    private var model: MemoryGame<String> = createMemoryGame()
+    @Published private var model: MemoryGame<String> = createMemoryGame()
         
     
     // Essa é uma outra forma de acessar algum elemento do Model sem pertimir que ele seja modificado.
     var cards: Array<MemoryGame<String>.Card> {
-        return model.cards
+        model.cards
     }
 
+    // MARK: - Intent(s)
+    
+    func choose(_ card: MemoryGame<String>.Card) {
+        //objectWillChange.send() -> uma possibilidade, mas usaremos o @published junto a declaração do model.
+        model.choose(card)
+    }
 }
