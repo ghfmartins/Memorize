@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis = ["🚗", "🛵", "🚚", "🚜", "🏎️",  "🚀", "✈️", "🚁", "🛳️", "🏍️", "🛶", "⛵️", "🚊", "🚲", "🚑", "🚠", "🚂", "🛸", "⛴️", "🛺", "🚌", "🚓", "🚒", "🚇"]
-    @State var emojiCount = 4
+    @State var emojis = ["🚗", "🛵", "🚚", "🚜", "🏎️",  "🚀", "✈️", "🚁", "🛳️", "🏍️", "🛶", "⛵️", "🚊", "🚲", "🚑", "🚠", "🚂", "🛸", "⛴️", "🛺", "🚌", "🚓", "🚒", "🚇"]
+    let vehiclesEmojis = ["🚗", "🛵", "🚚", "🚜", "🏎️",  "🚀", "✈️", "🚁", "🛳️", "🏍️", "🛶", "⛵️", "🚊", "🚲", "🚑", "🚠", "🚂", "🛸", "⛴️", "🛺", "🚌", "🚓", "🚒", "🚇"]
+    let foodsEmojis = ["🍔", "🥨", "🥐", "🍕", "🥙", "🌮", "🍝", "🍙", "🍰", "🍿", "🍫", "🥗", "🍩", "🥪"]
+    let sportsEmojis = ["⚽️", "🏀", "🏈", "⚾️", "⛸️", "🎾", "🏐", "🏉", "🥏", "🎱", "🏓", "🏒", "🛹", "🏹", "🥊", "🥍"]
+    
+    @State var emojiCount = 8
     
     var body: some View {
         VStack {
+            Text("Memorize!")
+                .font(.largeTitle)
+            
+                
             ScrollView {
                 LazyVGrid (columns: [GridItem(.adaptive(minimum: 65))]) {
                     ForEach(emojis[0..<emojiCount], id: \.self) { emoji in
@@ -24,35 +32,56 @@ struct ContentView: View {
             .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
             Spacer()
             HStack{
-                remove
+                vehiclesTheme
                 Spacer()
-                add
+                foodsTheme
+                Spacer()
+                sportsTheme
             }
             .font(.largeTitle)
-            .padding(.horizontal)
+            .padding(.horizontal, 60.0)
 
         }
         .padding(.horizontal)
 
     }
     
-    var remove: some View {
+    var vehiclesTheme: some View {
         Button {
-            if emojiCount > 1 {
-                emojiCount -= 1
-            }
+            emojis = vehiclesEmojis.shuffled()
+            emojiCount = Int.random(in: 8...24)
         } label: {
-            Image(systemName: "minus.circle")
+            VStack{
+                Image(systemName: "car")
+                Text("Vehicles")
+                    .font(.footnote)
+            }
         }
     }
     
-    var add: some View {
+    var sportsTheme: some View {
         Button {
-            if emojiCount < emojis.count {
-                emojiCount += 1
-            }
+            emojis = sportsEmojis.shuffled()
+            emojiCount = Int.random(in: 8...16)
         } label: {
-            Image(systemName: "plus.circle")
+            VStack{
+                Image(systemName: "football")
+                Text("Sports")
+                    .font(.footnote)
+            }
+        }
+    }
+    
+    var foodsTheme: some View {
+        Button {
+            emojis = foodsEmojis.shuffled()
+            emojiCount = Int.random(in: 8...14)
+        } label: {
+            VStack{
+                Image(systemName: "fork.knife")
+                Text("Foods")
+                    .font(.footnote)
+            }
         }
     }
 }
